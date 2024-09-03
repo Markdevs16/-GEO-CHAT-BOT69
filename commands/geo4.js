@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function gptConvoAPI(ask, id) {
     try {
-        const response = await axios.get(`https://jonellccprojectapis10.adaptable.app/api/gptconvo?ask=${encodeURIComponent(ask)}&id=${id}`);
+        const response = await axios.get(`https://gpt4withcustommodel.onrender.com/gpt?query=${encodeURIComponent(ask)}&model=gpt-4`);
         
         if (response.data && response.data.response) {
             return response.data.response;
@@ -39,10 +39,9 @@ module.exports = {
 
                         if (attachment.type === "photo") {
                             const imageURL = attachment.url;
-                            const geminiUrl = `https://joncll.serv00.net/chat.php?ask=${encodeURIComponent(message)}&imgurl=${encodeURIComponent(imageURL)}`;
+                            const geminiUrl = `https://deku-rest-api.gleeze.com/gemini?prompt=${encodeURIComponent(message)}&imgurl=${encodeURIComponent(imageURL)}`;
                             const geminiResponse = await axios.get(geminiUrl);
                             const { vision } = geminiResponse.data;
-
                             if (vision) {
                                 return api.editMessage(
                                     `🎀 𝗚𝗘𝗢 𝗧𝗘𝗖𝗛 𝗔𝗜69 🎀\n━━━━━━━━━━━━━━━━━━\n${vision}\n━━━━━━━━━━━━━━━━━━`,
