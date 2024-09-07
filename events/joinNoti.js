@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-  name: "joinNoti",
+  name: "jn",
   version: "1.0.0",
   description: "Join notifications",
-  author: "joshuaApostol",
+  author: "George Nakila",
   async onEvent({ api, event, prefix }) {
     try {
       const { logMessageType, logMessageData, threadID } = event;

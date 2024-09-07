@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-  name: 'hentagif',
+  name: 'bawalpindutin',
   description: 'hentai gif.',
   nashPrefix: false,
   execute(api, event, args, prefix) {

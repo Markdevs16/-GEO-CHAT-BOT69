@@ -1,50 +1,49 @@
-const axios = require("axios");
+const axios = require('axios');
 
-async function fetchAIResponse(prompt) {
+module.exports.config = {
+    name: "g3",
+    version: "1.0.0",
+    hasPermission: 0,
+    credits: "George Nakila",//api by jerome
+    description: "Gpt architecture",
+    usePrefix: false,
+    commandCategory: "GPT4",
+    cooldowns: 5,
+};
+
+module.exports.run = async function ({ api, event, args }) {
     try {
-        const response = await axios.get(`${global.NashBot.KEN}freegpt4o8k/?question=${encodeURIComponent(prompt)}`);
-        if (response.data.status) {
-            return response.data.response;
+        const { messageID, messageReply } = event;
+        let prompt = args.join(' ');
+
+        if (messageReply) {
+            const repliedMessage = messageReply.body;
+            prompt = `${repliedMessage} ${prompt}`;
+        }
+
+        if (!prompt) {
+            return api.sendMessage('Please provide a prompt to generate a text response.\nExample: ai What is the meaning of life?', event.threadID, messageID);
+        }
+        api.sendMessage('💬 Responding...', event.threadID);
+
+        // Delay
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Adjust the delay time as needed
+
+        const gpt4_api = `https://gpt4withcustommodel.onrender.com/gpt?query=${encodeURIComponent(prompt)}&model=gpt-4`;
+
+        const response = await axios.get(gpt4_api);
+
+        if (response.data && response.data.response) {
+            const generatedText = response.data.response;
+
+            // Ai Answer Here
+            api.sendMessage(`🤖 ᴀɪ ᴀɴsᴡᴇʀ\n━━━━━━━━━━━━━━━━\n\n𝗔𝗻𝘀𝘄𝗲𝗿: ${generatedText}\n\n━━━━━━━━━━━━━━━━\n ᴏᴡɴᴇʀ : ᴍᴀʀᴋ ᴍᴀʀᴛɪɴᴇᴢ `, event.threadID, messageID);
         } else {
-            return "Failed to get a valid response from the AI.";
+            console.error('API response did not contain expected data:', response.data);
+            api.sendMessage(`❌ An error occurred while generating the text response. Please try again later. Response data: ${JSON.stringify(response.data)}`, event.threadID, messageID);
         }
     } catch (error) {
-        console.error("Error fetching data:", error.message);
-        return "Failed to fetch data. Please try again later.";
+        console.error('Error:', error);
+        api.sendMessage(`❌ An error occurred while generating the text response. Please try again later. Error details: ${error.message}`, event.threadID, event.messageID);
     }
-}
-
-module.exports = {
-    name: "geo",
-    description: "Talk to GPT-4 without maintaining a conversation",
-    nashPrefix: false,
-    version: "1.0.0",
-    role: 0,
-    cooldowns: 5,
-    aliases: ["ai-non"],
-    execute(api, event, args, prefix) {
-        const { threadID, messageID, senderID } = event;
-        let prompt = args.join(" ");
-        if (!prompt) return api.sendMessage("Please enter a prompt.", threadID, messageID);
-
-        api.sendMessage(
-            "🎀 𝗚𝗘𝗢 𝗧𝗘𝗖𝗛 𝗔𝗜69 🎀\n\n" +
-            "⏳ Responding...",
-            threadID,
-            async (err, info) => {
-                if (err) return;
-                try {
-                    const response = await fetchAIResponse(prompt);
-                    api.editMessage(
-                        "🎀 𝗚𝗘𝗢 𝗧𝗘𝗖𝗛 𝗔𝗜69 🎀\n\n" +
-                        response,
-                        info.messageID
-                    );
-                } catch (g) {
-                    api.sendMessage("Error processing your request: " + g.message, threadID);
-                }
-            },
-            messageID
-        );
-    },
 };

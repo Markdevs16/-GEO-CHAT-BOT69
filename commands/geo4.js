@@ -16,7 +16,7 @@ async function gptConvoAPI(ask, id) {
 }
 
 module.exports = {
-    name: "geo4",
+    name: "g4",
     description: "Interact with GPT-3 conversational AI",
     nashPrefix: false,
     version: "1.0.0",
@@ -26,10 +26,10 @@ module.exports = {
         const { threadID, messageID, senderID } = event;
         const message = args.join(" ");
 
-        if (!message) return api.sendMessage("Please provide your question.\n\nExample: ai What is the solar system?", threadID, messageID);
+        if (!message) return api.sendMessage("Please provide your question.\n\nExample: G4 What is the solar system?", threadID, messageID);
 
         api.sendMessage(
-            "🔎 Searching for an answer. Please wait...",
+            "💬 Responding...",
             threadID,
             async (err, info) => {
                 if (err) return;

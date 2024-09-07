@@ -3,7 +3,7 @@ const os = require('os');
 module.exports = {
   name: 'upt',
   description: 'Uptime of the bot',
-  author: 'NashBot',
+  author: 'George Nakila',
   nashPrefix: false,
   execute(api, event, args, prefix, commands) {
     const uptimeMessage = generateStatusMessage();
@@ -24,7 +24,7 @@ function generateStatusMessage() {
   const osPlatform = os.platform();
   const cpuArchitecture = os.arch();
 
-  return `BOT has been working for ${hours} hour(s) ${minutes} minute(s) ${seconds} second(s).\n\n` +
+  return `🎀 𝗚𝗘𝗢 𝗧𝗘𝗖𝗛 𝗔𝗜69 🎀 has been working for ${hours} hour(s) ${minutes} minute(s) ${seconds} second(s).\n\n` +
     `❖ Cpu usage: ${cpuUsage}%\n` +
     `❖ RAM usage: ${ramUsage} MB\n` +
     `❖ Cores: ${cores}\n` +
